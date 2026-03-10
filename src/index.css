@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Lexend", sans-serif;
+  --color-primary: #192643;
+  --color-accent: #dc2626;
+  --color-background-light: #f6f7f8;
+  --color-background-dark: #0F1520;
+  --color-surface-dark: #1A202C;
+}
+
+body {
+  font-family: var(--font-display);
+  background-color: var(--color-background-dark);
+  color: #f8fafc; /* slate-50 */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(25, 38, 67, 0.5);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(25, 38, 67, 0.8);
+}
