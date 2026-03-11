@@ -1,7 +1,52 @@
-import { Shield, Menu, UserPlus, Dices, Share2, Fingerprint, Eye, LayoutDashboard, Globe, ArrowRight, Quote, Twitter, Instagram } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Shield, Menu, UserPlus, Dices, Share2, Fingerprint, Eye, LayoutDashboard, Globe, ArrowRight, Quote, Twitter, Instagram, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+const LOCATIONS = [
+  { flag: '🇳🇬', city: 'Lagos', country: 'Nigeria' },
+  { flag: '🇬🇧', city: 'London', country: 'UK' },
+  { flag: '🇺🇸', city: 'New York', country: 'USA' },
+  { flag: '🇧🇷', city: 'São Paulo', country: 'Brazil' },
+  { flag: '🇩🇪', city: 'Berlin', country: 'Germany' },
+  { flag: '🇮🇳', city: 'Mumbai', country: 'India' },
+  { flag: '🇦🇺', city: 'Sydney', country: 'Australia' },
+  { flag: '🇿🇦', city: 'Cape Town', country: 'South Africa' },
+  { flag: '🇲🇽', city: 'Mexico City', country: 'Mexico' },
+  { flag: '🇯🇵', city: 'Tokyo', country: 'Japan' },
+  { flag: '🇨🇦', city: 'Toronto', country: 'Canada' },
+  { flag: '🇫🇷', city: 'Paris', country: 'France' },
+];
+
 export default function LandingPage() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [totalShuffles, setTotalShuffles] = useState(1247);
+  const [activities, setActivities] = useState([
+    { id: 1, flag: '🇳🇬', city: 'Lagos', country: 'Nigeria', time: 'Just now' },
+    { id: 2, flag: '🇬🇧', city: 'London', country: 'UK', time: '2 min ago' }
+  ]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const randomLoc = LOCATIONS[Math.floor(Math.random() * LOCATIONS.length)];
+      const newActivity = {
+        id: Date.now(),
+        flag: randomLoc.flag,
+        city: randomLoc.city,
+        country: randomLoc.country,
+        time: 'Just now'
+      };
+      
+      setActivities(prev => {
+        const updated = [newActivity, ...prev].slice(0, 2);
+        return updated.map((act, i) => i === 0 ? act : { ...act, time: `${i + 1} min ago` });
+      });
+      
+      setTotalShuffles(prev => prev + 1);
+    }, 6000); // New shuffle every 6 seconds
+    
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#0F1520] text-slate-100 font-display">
       {/* Top Navigation Bar */}
@@ -13,14 +58,55 @@ export default function LandingPage() {
           <span className="text-xl font-extrabold tracking-tight text-white">TeamShuffle</span>
         </div>
         <div className="flex items-center gap-3">
-          <Link to="/app" className="bg-[#dc2626] hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-bold transition-colors">
-            Try Now
-          </Link>
-          <button className="p-2 text-slate-400">
+          <button 
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="p-2 text-slate-400 hover:text-white transition-colors"
+          >
             <Menu className="size-6" />
           </button>
         </div>
       </nav>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-[100] bg-[#0F1520]/95 backdrop-blur-xl flex flex-col animate-in fade-in duration-200">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800">
+            <div className="flex items-center gap-2">
+              <div className="flex items-center justify-center size-10 rounded-lg bg-[#dc2626] text-white">
+                <Shield className="size-6" />
+              </div>
+              <span className="text-xl font-extrabold tracking-tight text-white">TeamShuffle</span>
+            </div>
+            <button 
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="p-2 text-slate-400 hover:text-white transition-colors bg-slate-800/50 rounded-full"
+            >
+              <X className="size-6" />
+            </button>
+          </div>
+          <div className="flex flex-col p-6 gap-6 text-lg font-bold">
+            <Link to="/app" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-between p-4 bg-[#1A202C] rounded-xl border border-slate-800 hover:border-slate-600 transition-colors">
+              <span>Shuffle App</span>
+              <ArrowRight className="size-5 text-slate-500" />
+            </Link>
+            <Link to="/global" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-between p-4 bg-[#1A202C] rounded-xl border border-slate-800 hover:border-slate-600 transition-colors">
+              <span>Global Dashboard</span>
+              <ArrowRight className="size-5 text-slate-500" />
+            </Link>
+            <Link to="/verify" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-between p-4 bg-[#1A202C] rounded-xl border border-slate-800 hover:border-slate-600 transition-colors">
+              <span>Verify a Shuffle</span>
+              <ArrowRight className="size-5 text-slate-500" />
+            </Link>
+            
+            <div className="mt-8 pt-8 border-t border-slate-800 space-y-4">
+              <h4 className="text-sm text-slate-500 uppercase tracking-widest font-bold">More</h4>
+              <a href="#" className="block text-slate-300 hover:text-white transition-colors">Pricing</a>
+              <a href="#" className="block text-slate-300 hover:text-white transition-colors">About Us</a>
+              <a href="#" className="block text-slate-300 hover:text-white transition-colors">Contact</a>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Hero Section */}
       <header className="relative overflow-hidden pt-12 pb-16 px-6">
@@ -41,7 +127,7 @@ export default function LandingPage() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
               </span>
-              <span className="text-sm font-bold text-slate-300">12,847 teams shuffled worldwide</span>
+              <span className="text-sm font-bold text-slate-300">{totalShuffles.toLocaleString()} teams shuffled worldwide</span>
             </div>
           </div>
         </div>
@@ -50,9 +136,10 @@ export default function LandingPage() {
       {/* How It Works Section */}
       <section className="py-12 bg-slate-900/50">
         <h2 className="px-6 text-2xl font-extrabold mb-8 text-white">How It Works</h2>
-        <div className="flex overflow-x-auto gap-4 px-6 pb-6 hide-scrollbar" style={{ scrollbarWidth: 'none' }}>
+        {/* Added snap scrolling and removed the hidden scrollbar so it's obvious on desktop */}
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 px-6 pb-6 custom-scrollbar">
           {/* Step 1 */}
-          <div className="min-w-[280px] bg-[#1A202C] p-6 rounded-2xl border border-slate-800 shadow-sm">
+          <div className="snap-center shrink-0 w-[85vw] max-w-[320px] bg-[#1A202C] p-6 rounded-2xl border border-slate-800 shadow-sm">
             <div className="size-12 rounded-xl bg-[#dc2626]/10 text-[#dc2626] flex items-center justify-center mb-4">
               <UserPlus className="size-7" />
             </div>
@@ -60,7 +147,7 @@ export default function LandingPage() {
             <p className="text-slate-400 text-sm leading-relaxed">Input names or import your regular squad list in seconds.</p>
           </div>
           {/* Step 2 */}
-          <div className="min-w-[280px] bg-[#1A202C] p-6 rounded-2xl border border-slate-800 shadow-sm">
+          <div className="snap-center shrink-0 w-[85vw] max-w-[320px] bg-[#1A202C] p-6 rounded-2xl border border-slate-800 shadow-sm">
             <div className="size-12 rounded-xl bg-[#dc2626]/10 text-[#dc2626] flex items-center justify-center mb-4">
               <Dices className="size-7" />
             </div>
@@ -68,7 +155,7 @@ export default function LandingPage() {
             <p className="text-slate-400 text-sm leading-relaxed">Our algorithm ensures zero bias for perfectly fair matches.</p>
           </div>
           {/* Step 3 */}
-          <div className="min-w-[280px] bg-[#1A202C] p-6 rounded-2xl border border-slate-800 shadow-sm">
+          <div className="snap-center shrink-0 w-[85vw] max-w-[320px] bg-[#1A202C] p-6 rounded-2xl border border-slate-800 shadow-sm">
             <div className="size-12 rounded-xl bg-[#dc2626]/10 text-[#dc2626] flex items-center justify-center mb-4">
               <Share2 className="size-7" />
             </div>
@@ -124,40 +211,20 @@ export default function LandingPage() {
               Live Activity
             </h3>
             <div className="space-y-4 mb-8">
-              <div className="flex items-center gap-3 p-3 bg-[#0F1520]/50 rounded-xl">
-                <div className="size-8 flex items-center justify-center text-xl">🇳🇬</div>
-                <p className="text-sm">A team was shuffled in <span className="font-bold">Lagos, Nigeria</span> <span className="text-slate-500">• 2 min ago</span></p>
-              </div>
-              <div className="flex items-center gap-3 p-3 bg-[#0F1520]/50 rounded-xl opacity-70">
-                <div className="size-8 flex items-center justify-center text-xl">🇬🇧</div>
-                <p className="text-sm">A team was shuffled in <span className="font-bold">London, UK</span> <span className="text-slate-500">• 5 min ago</span></p>
-              </div>
+              {activities.map((activity, index) => (
+                <div 
+                  key={activity.id} 
+                  className={`flex items-center gap-3 p-3 bg-[#0F1520]/50 rounded-xl transition-all duration-500 ${index === 0 ? 'animate-in fade-in slide-in-from-top-2' : 'opacity-70'}`}
+                >
+                  <div className="size-8 flex items-center justify-center text-xl">{activity.flag}</div>
+                  <p className="text-sm">A team was shuffled in <span className="font-bold">{activity.city}, {activity.country}</span> <span className="text-slate-500">• {activity.time}</span></p>
+                </div>
+              ))}
             </div>
             <Link to="/global" className="inline-flex items-center gap-2 text-[#dc2626] font-bold hover:gap-3 transition-all">
               View Full Dashboard
               <ArrowRight className="size-4" />
             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonial */}
-      <section className="py-12 px-6">
-        <div className="relative max-w-sm mx-auto">
-          <Quote className="text-slate-800 size-16 absolute -top-4 -left-4 z-0 fill-current" />
-          <div className="relative z-10">
-            <p className="text-lg italic font-medium text-slate-300 mb-6 leading-relaxed">
-              "Finally, no more arguments on Tuesday nights! Everyone trusts the app because of the verification ID. It's transformed our match preparation."
-            </p>
-            <div className="flex items-center gap-3">
-              <div className="size-12 rounded-full bg-slate-700 overflow-hidden">
-                <img alt="SOT FC Member" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7sJ-iYTHWdtCOlOOKK6XCPEPsoxIveFH3xC8974o1ZUDSDJ9i-9jzgxTFIn-7c0hcCiK3ToufYu90AdT4gXAWn5KJ0PTYUFt7YREaFeNBfcVJ8sWK6XteJbCfMXCZ5f8sv85MZbpaC-MqWRIltsu7Y4yphZi9pVRccXKz2dDGn9FCsQ4L31seCQZhDNdHDBNNHpCda8-vzH2J9IQ8ujS8ihDqjtiPk0h5BdFcWMQnD97ji7bg5D-cMcAX__KAgTFhny3IjpfSuIw" className="w-full h-full object-cover" />
-              </div>
-              <div>
-                <p className="font-bold text-white">James Wilson 🏴󠁧󠁢󠁥󠁮󠁧󠁿</p>
-                <p className="text-xs text-slate-400 uppercase tracking-widest font-bold">SOT FC Member</p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
