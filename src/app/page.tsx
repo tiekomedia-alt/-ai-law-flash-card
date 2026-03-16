@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Shield, Menu, UserPlus, Dices, Share2, Fingerprint, Eye, LayoutDashboard, Globe, ArrowRight, Quote, Twitter, Instagram, X, Coffee } from 'lucide-react';
+import { Shield, Menu, UserPlus, Dices, Share2, Fingerprint, Eye, LayoutDashboard, Globe, ArrowRight, Quote, X, Coffee } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
+import LogoBrand from '@/components/LogoBrand';
+import LiveIndicator from '@/components/LiveIndicator';
+import SocialLinks from '@/components/SocialLinks';
 
 
 const LOCATIONS = [
@@ -56,19 +58,9 @@ export default function LandingPage() {
     <div className="min-h-screen bg-[#0F1520] text-slate-100 font-display">
       {/* Top Navigation Bar */}
       <nav className="sticky top-0 z-50 flex items-center justify-between px-4 py-3 bg-[#0F1520]/80 backdrop-blur-md border-b border-slate-800">
-        <div className="flex items-center gap-2">
-          <Image 
-            src="https://res.cloudinary.com/dspngcwzj/image/upload/v1773368448/enlarged_logo_team_shuf_g1bmvq.png" 
-            alt="TeamShuffle Logo" 
-            width={40} 
-            height={40} 
-            className="h-8 w-auto"
-            referrerPolicy="no-referrer"
-          />
-          <span className="text-xl font-extrabold tracking-tight text-white">TeamShuffle</span>
-        </div>
+        <LogoBrand />
         <div className="flex items-center gap-3">
-          <button 
+          <button
             onClick={() => setIsMobileMenuOpen(true)}
             className="p-2 text-slate-400 hover:text-white transition-colors"
           >
@@ -81,17 +73,7 @@ export default function LandingPage() {
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-[100] bg-[#0F1520]/95 backdrop-blur-xl flex flex-col animate-in fade-in duration-200">
           <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800">
-            <div className="flex items-center gap-2">
-              <Image 
-                src="https://res.cloudinary.com/dspngcwzj/image/upload/v1773368448/enlarged_logo_team_shuf_g1bmvq.png" 
-                alt="TeamShuffle Logo" 
-                width={40} 
-                height={40} 
-                className="h-8 w-auto"
-                referrerPolicy="no-referrer"
-              />
-              <span className="text-xl font-extrabold tracking-tight text-white">TeamShuffle</span>
-            </div>
+            <LogoBrand />
             <button 
               onClick={() => setIsMobileMenuOpen(false)}
               className="p-2 text-slate-400 hover:text-white transition-colors bg-slate-800/50 rounded-full"
@@ -118,7 +100,7 @@ export default function LandingPage() {
               <button onClick={() => { setShowSupportModal(true); setIsMobileMenuOpen(false); }} className="block text-left text-slate-300 hover:text-white transition-colors">Support Us</button>
               <button className="block text-slate-300 hover:text-white transition-colors">About Us</button>
               <button className="block text-slate-300 hover:text-white transition-colors">Contact</button>
-              <Link href="/paywall" onClick={() => setIsMobileMenuOpen(false)} className="block text-left w-full text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-2">
+              <Link href="/paywall" onClick={() => setIsMobileMenuOpen(false)} className="text-left w-full text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-2">
                 <Coffee className="size-4" /> Tip Jar
               </Link>
             </div>
@@ -139,15 +121,12 @@ export default function LandingPage() {
           <Link href="/app" className="block w-full bg-[#dc2626] hover:bg-red-700 text-white py-4 px-8 rounded-xl text-lg font-extrabold shadow-lg shadow-[#dc2626]/20 transition-all mb-4">
             Shuffle Now — It's Free
           </Link>
-          <Link href="/paywall" className="block w-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 py-3 px-8 rounded-xl text-md font-bold transition-all mb-8 flex items-center justify-center gap-2">
+          <Link href="/paywall" className="w-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 py-3 px-8 rounded-xl text-md font-bold transition-all mb-8 flex items-center justify-center gap-2">
             <Coffee className="size-5" /> Tip Jar
           </Link>
           <div className="flex flex-col items-center gap-1">
             <div className="flex items-center gap-2 px-4 py-2 bg-[#192643]/30 rounded-full border border-[#192643]/20">
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-              </span>
+              <LiveIndicator color="green" />
               <span className="text-sm font-bold text-slate-300">{totalShuffles.toLocaleString()} teams shuffled worldwide</span>
             </div>
           </div>
@@ -253,16 +232,8 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="bg-[#080B12] pt-16 pb-8 px-6 border-t border-slate-800">
         <div className="max-w-md mx-auto">
-          <div className="flex items-center gap-2 mb-8">
-            <Image 
-              src="https://res.cloudinary.com/dspngcwzj/image/upload/v1773368448/enlarged_logo_team_shuf_g1bmvq.png" 
-              alt="TeamShuffle Logo" 
-              width={40} 
-              height={40} 
-              className="h-8 w-auto"
-              referrerPolicy="no-referrer"
-            />
-            <span className="text-lg font-extrabold tracking-tight text-white uppercase">TeamShuffle</span>
+          <div className="mb-8">
+            <LogoBrand textClassName="text-lg font-extrabold uppercase" />
           </div>
           <div className="grid grid-cols-2 gap-8 mb-12">
             <div className="space-y-4">
@@ -283,13 +254,8 @@ export default function LandingPage() {
               </ul>
             </div>
           </div>
-          <div className="flex justify-start gap-6 mb-12">
-            <a href="https://x.com/tiekomedia" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-[#dc2626] transition-colors">
-              <Twitter className="size-6" />
-            </a>
-            <a href="https://www.instagram.com/tiekomedia?igsh=YTNmNTAyemFmdzhr" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-[#dc2626] transition-colors">
-              <Instagram className="size-6" />
-            </a>
+          <div className="flex justify-start mb-12">
+            <SocialLinks />
           </div>
           <div className="border-t border-slate-800 pt-8 flex flex-col gap-4">
             <p className="text-xs text-slate-400">© 2026 TeamShuffle. Built by Tieko Media Limited.</p>

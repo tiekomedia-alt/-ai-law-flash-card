@@ -2,7 +2,8 @@
 
 import { Shuffle, Bell, TrendingUp, Globe, ChevronRight, Users, User, LayoutDashboard, History, Settings } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
+import LogoBrand from '@/components/LogoBrand';
+import LiveIndicator from '@/components/LiveIndicator';
 
 export default function GlobalDashboard() {
   return (
@@ -11,25 +12,12 @@ export default function GlobalDashboard() {
       <header className="sticky top-0 z-50 bg-[#14171e]/80 backdrop-blur-md border-b border-[#192643]/30 px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Image 
-              src="https://res.cloudinary.com/dspngcwzj/image/upload/v1773368448/enlarged_logo_team_shuf_g1bmvq.png" 
-              alt="TeamShuffle Logo" 
-              width={30} 
-              height={30} 
-              className="h-6 w-auto"
-              referrerPolicy="no-referrer"
-            />
+            <LogoBrand size="sm" textClassName="text-sm font-bold uppercase tracking-wider" />
             <div>
-              <h1 className="text-sm font-bold uppercase tracking-wider text-slate-300">TeamShuffle</h1>
-              <div className="flex items-center gap-2">
-                <h2 className="text-lg font-bold leading-none">Global Dashboard</h2>
-                <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                  </span>
-                  <span className="text-[10px] font-bold text-emerald-500 tracking-tighter uppercase">Live</span>
-                </div>
+              <h2 className="text-lg font-bold leading-none">Global Dashboard</h2>
+              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 w-fit mt-0.5">
+                <LiveIndicator size="sm" />
+                <span className="text-[10px] font-bold text-emerald-500 tracking-tighter uppercase">Live</span>
               </div>
             </div>
           </div>
