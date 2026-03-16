@@ -12,6 +12,8 @@
   "dependencies": {
     "@clerk/nextjs": "^7.0.4",
     "@google/genai": "^1.29.0",
+    "@paystack/inline-js": "^2.22.8",
+    "@supabase/supabase-js": "^2.99.1",
     "better-sqlite3": "^12.4.1",
     "clsx": "^2.1.1",
     "dotenv": "^17.2.3",
