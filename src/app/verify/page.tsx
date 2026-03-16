@@ -1,6 +1,8 @@
+"use client";
+
 import React, { useState } from 'react';
 import { ArrowLeft, Search, CheckCircle, Users, Grid, ShieldCheck, Home, History, Settings, CheckCircle2, AlertCircle } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 export default function VerifyShuffle() {
   const [serial, setSerial] = useState('TS-260310-A7K2');
@@ -30,7 +32,7 @@ export default function VerifyShuffle() {
       {/* Header */}
       <header className="sticky top-0 z-10 bg-[#14171e]/80 backdrop-blur-md border-b border-[#192643]/30">
         <div className="flex items-center p-4 justify-between max-w-md mx-auto w-full">
-          <Link to="/" className="text-slate-100 flex size-10 items-center justify-center rounded-full hover:bg-[#192643]/40 transition-colors">
+          <Link href="/" className="text-slate-100 flex size-10 items-center justify-center rounded-full hover:bg-[#192643]/40 transition-colors">
             <ArrowLeft className="size-6" />
           </Link>
           <h1 className="text-lg font-bold leading-tight tracking-tight flex-1 text-center pr-10">Verify a Shuffle</h1>
@@ -156,30 +158,30 @@ export default function VerifyShuffle() {
       {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 bg-[#14171e]/90 backdrop-blur-lg border-t border-[#192643]/30 pb-safe z-50">
         <div className="max-w-md mx-auto flex gap-2 px-4 pb-3 pt-2">
-          <Link to="/" className="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400">
+          <Link href="/" className="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400">
             <div className="flex h-8 items-center justify-center">
               <Home className="size-6" />
             </div>
             <p className="text-[10px] font-medium">Home</p>
           </Link>
-          <Link to="/verify" className="flex flex-1 flex-col items-center justify-center gap-1 text-slate-100">
+          <Link href="/verify" className="flex flex-1 flex-col items-center justify-center gap-1 text-slate-100">
             <div className="flex h-8 items-center justify-center bg-[#192643]/50 w-12 rounded-full">
               <CheckCircle2 className="size-6" />
             </div>
             <p className="text-[10px] font-bold">Verify</p>
           </Link>
-          <Link to="#" className="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400">
+          <button className="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400">
             <div className="flex h-8 items-center justify-center">
               <History className="size-6" />
             </div>
             <p className="text-[10px] font-medium">History</p>
-          </Link>
-          <Link to="#" className="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400">
+          </button>
+          <button className="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400">
             <div className="flex h-8 items-center justify-center">
               <Settings className="size-6" />
             </div>
             <p className="text-[10px] font-medium">Settings</p>
-          </Link>
+          </button>
         </div>
       </nav>
     </div>

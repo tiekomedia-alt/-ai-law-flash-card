@@ -1,6 +1,10 @@
+"use client";
+
 import React, { useState, useEffect } from 'react';
-import { Shield, Menu, UserPlus, Dices, Share2, Fingerprint, Eye, LayoutDashboard, Globe, ArrowRight, Quote, Twitter, Instagram, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Shield, Menu, UserPlus, Dices, Share2, Fingerprint, Eye, LayoutDashboard, Globe, ArrowRight, Quote, Twitter, Instagram, X, Coffee } from 'lucide-react';
+import Link from 'next/link';
+import Image from 'next/image';
+
 
 const LOCATIONS = [
   { flag: '🇳🇬', city: 'Lagos', country: 'Nigeria' },
@@ -19,6 +23,7 @@ const LOCATIONS = [
 
 export default function LandingPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showSupportModal, setShowSupportModal] = useState(false);
   const [totalShuffles, setTotalShuffles] = useState(1247);
   const [activities, setActivities] = useState([
     { id: 1, flag: '🇳🇬', city: 'Lagos', country: 'Nigeria', time: 'Just now' },
@@ -52,9 +57,14 @@ export default function LandingPage() {
       {/* Top Navigation Bar */}
       <nav className="sticky top-0 z-50 flex items-center justify-between px-4 py-3 bg-[#0F1520]/80 backdrop-blur-md border-b border-slate-800">
         <div className="flex items-center gap-2">
-          <div className="flex items-center justify-center size-10 rounded-lg bg-[#dc2626] text-white">
-            <Shield className="size-6" />
-          </div>
+          <Image 
+            src="https://res.cloudinary.com/dspngcwzj/image/upload/v1773368448/enlarged_logo_team_shuf_g1bmvq.png" 
+            alt="TeamShuffle Logo" 
+            width={40} 
+            height={40} 
+            className="h-8 w-auto"
+            referrerPolicy="no-referrer"
+          />
           <span className="text-xl font-extrabold tracking-tight text-white">TeamShuffle</span>
         </div>
         <div className="flex items-center gap-3">
@@ -72,9 +82,14 @@ export default function LandingPage() {
         <div className="fixed inset-0 z-[100] bg-[#0F1520]/95 backdrop-blur-xl flex flex-col animate-in fade-in duration-200">
           <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800">
             <div className="flex items-center gap-2">
-              <div className="flex items-center justify-center size-10 rounded-lg bg-[#dc2626] text-white">
-                <Shield className="size-6" />
-              </div>
+              <Image 
+                src="https://res.cloudinary.com/dspngcwzj/image/upload/v1773368448/enlarged_logo_team_shuf_g1bmvq.png" 
+                alt="TeamShuffle Logo" 
+                width={40} 
+                height={40} 
+                className="h-8 w-auto"
+                referrerPolicy="no-referrer"
+              />
               <span className="text-xl font-extrabold tracking-tight text-white">TeamShuffle</span>
             </div>
             <button 
@@ -85,24 +100,27 @@ export default function LandingPage() {
             </button>
           </div>
           <div className="flex flex-col p-6 gap-6 text-lg font-bold">
-            <Link to="/app" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-between p-4 bg-[#1A202C] rounded-xl border border-slate-800 hover:border-slate-600 transition-colors">
+            <Link href="/app" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-between p-4 bg-[#1A202C] rounded-xl border border-slate-800 hover:border-slate-600 transition-colors">
               <span>Shuffle App</span>
               <ArrowRight className="size-5 text-slate-500" />
             </Link>
-            <Link to="/global" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-between p-4 bg-[#1A202C] rounded-xl border border-slate-800 hover:border-slate-600 transition-colors">
+            <Link href="/global" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-between p-4 bg-[#1A202C] rounded-xl border border-slate-800 hover:border-slate-600 transition-colors">
               <span>Global Dashboard</span>
               <ArrowRight className="size-5 text-slate-500" />
             </Link>
-            <Link to="/verify" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-between p-4 bg-[#1A202C] rounded-xl border border-slate-800 hover:border-slate-600 transition-colors">
+            <Link href="/verify" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-between p-4 bg-[#1A202C] rounded-xl border border-slate-800 hover:border-slate-600 transition-colors">
               <span>Verify a Shuffle</span>
               <ArrowRight className="size-5 text-slate-500" />
             </Link>
             
             <div className="mt-8 pt-8 border-t border-slate-800 space-y-4">
               <h4 className="text-sm text-slate-500 uppercase tracking-widest font-bold">More</h4>
-              <a href="#" className="block text-slate-300 hover:text-white transition-colors">Pricing</a>
-              <a href="#" className="block text-slate-300 hover:text-white transition-colors">About Us</a>
-              <a href="#" className="block text-slate-300 hover:text-white transition-colors">Contact</a>
+              <button onClick={() => { setShowSupportModal(true); setIsMobileMenuOpen(false); }} className="block text-left text-slate-300 hover:text-white transition-colors">Support Us</button>
+              <button className="block text-slate-300 hover:text-white transition-colors">About Us</button>
+              <button className="block text-slate-300 hover:text-white transition-colors">Contact</button>
+              <Link href="/paywall" onClick={() => setIsMobileMenuOpen(false)} className="block text-left w-full text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-2">
+                <Coffee className="size-4" /> Tip Jar
+              </Link>
             </div>
           </div>
         </div>
@@ -118,8 +136,11 @@ export default function LandingPage() {
           <p className="text-slate-400 text-lg leading-relaxed mb-8">
             The world's most transparent team shuffler. Used by football clubs, schools, and teams in 30+ countries.
           </p>
-          <Link to="/app" className="block w-full bg-[#dc2626] hover:bg-red-700 text-white py-4 px-8 rounded-xl text-lg font-extrabold shadow-lg shadow-[#dc2626]/20 transition-all mb-6">
+          <Link href="/app" className="block w-full bg-[#dc2626] hover:bg-red-700 text-white py-4 px-8 rounded-xl text-lg font-extrabold shadow-lg shadow-[#dc2626]/20 transition-all mb-4">
             Shuffle Now — It's Free
+          </Link>
+          <Link href="/paywall" className="block w-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 py-3 px-8 rounded-xl text-md font-bold transition-all mb-8 flex items-center justify-center gap-2">
+            <Coffee className="size-5" /> Tip Jar
           </Link>
           <div className="flex flex-col items-center gap-1">
             <div className="flex items-center gap-2 px-4 py-2 bg-[#192643]/30 rounded-full border border-[#192643]/20">
@@ -221,7 +242,7 @@ export default function LandingPage() {
                 </div>
               ))}
             </div>
-            <Link to="/global" className="inline-flex items-center gap-2 text-[#dc2626] font-bold hover:gap-3 transition-all">
+            <Link href="/global" className="inline-flex items-center gap-2 text-[#dc2626] font-bold hover:gap-3 transition-all">
               View Full Dashboard
               <ArrowRight className="size-4" />
             </Link>
@@ -233,35 +254,40 @@ export default function LandingPage() {
       <footer className="bg-[#080B12] pt-16 pb-8 px-6 border-t border-slate-800">
         <div className="max-w-md mx-auto">
           <div className="flex items-center gap-2 mb-8">
-            <div className="flex items-center justify-center size-8 rounded bg-[#dc2626] text-white">
-              <Shield className="size-5" />
-            </div>
+            <Image 
+              src="https://res.cloudinary.com/dspngcwzj/image/upload/v1773368448/enlarged_logo_team_shuf_g1bmvq.png" 
+              alt="TeamShuffle Logo" 
+              width={40} 
+              height={40} 
+              className="h-8 w-auto"
+              referrerPolicy="no-referrer"
+            />
             <span className="text-lg font-extrabold tracking-tight text-white uppercase">TeamShuffle</span>
           </div>
           <div className="grid grid-cols-2 gap-8 mb-12">
             <div className="space-y-4">
               <h4 className="font-bold text-white text-sm uppercase tracking-wider">Product</h4>
               <ul className="space-y-2 text-slate-400 text-sm">
-                <li><Link to="/global" className="hover:text-[#dc2626]">Dashboard</Link></li>
-                <li><Link to="/verify" className="hover:text-[#dc2626]">Verification</Link></li>
-                <li><a href="#" className="hover:text-[#dc2626]">Pricing</a></li>
+                <li><Link href="/global" className="hover:text-[#dc2626]">Dashboard</Link></li>
+                <li><Link href="/verify" className="hover:text-[#dc2626]">Verification</Link></li>
+                <li><button onClick={() => setShowSupportModal(true)} className="hover:text-[#dc2626]">Support Us</button></li>
               </ul>
             </div>
             <div className="space-y-4">
               <h4 className="font-bold text-white text-sm uppercase tracking-wider">Company</h4>
               <ul className="space-y-2 text-slate-400 text-sm">
-                <li><a href="#" className="hover:text-[#dc2626]">About Us</a></li>
-                <li><a href="#" className="hover:text-[#dc2626]">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-[#dc2626]">Terms of Service</a></li>
-                <li><a href="#" className="hover:text-[#dc2626]">Contact</a></li>
+                <li><button className="hover:text-[#dc2626]">About Us</button></li>
+                <li><button className="hover:text-[#dc2626]">Privacy Policy</button></li>
+                <li><button className="hover:text-[#dc2626]">Terms of Service</button></li>
+                <li><button className="hover:text-[#dc2626]">Contact</button></li>
               </ul>
             </div>
           </div>
           <div className="flex justify-start gap-6 mb-12">
-            <a href="#" className="text-slate-400 hover:text-[#dc2626] transition-colors">
+            <a href="https://x.com/tiekomedia" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-[#dc2626] transition-colors">
               <Twitter className="size-6" />
             </a>
-            <a href="#" className="text-slate-400 hover:text-[#dc2626] transition-colors">
+            <a href="https://www.instagram.com/tiekomedia?igsh=YTNmNTAyemFmdzhr" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-[#dc2626] transition-colors">
               <Instagram className="size-6" />
             </a>
           </div>
@@ -270,6 +296,57 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
+
+      {/* Support Us Modal */}
+      {showSupportModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-[#1A202C] rounded-3xl w-full max-w-2xl border border-slate-800 shadow-2xl relative overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="absolute top-0 right-0 p-6 opacity-10 pointer-events-none">
+              <Coffee className="size-32 text-emerald-500" />
+            </div>
+            
+            <div className="flex justify-between items-center p-6 border-b border-slate-800 relative z-10 shrink-0">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-sm font-bold border border-emerald-500/20">
+                <Coffee className="size-4" /> Keep TeamShuffle Free
+              </div>
+              <button 
+                onClick={() => setShowSupportModal(false)}
+                className="p-2 hover:bg-slate-800 rounded-full transition-colors text-slate-400 hover:text-white"
+              >
+                <X className="size-6" />
+              </button>
+            </div>
+
+            <div className="p-6 sm:p-8 overflow-y-auto relative z-10 custom-scrollbar">
+              <h2 className="text-3xl font-black text-white mb-6 leading-tight">Why TeamShuffle is Free</h2>
+              <div className="space-y-4 text-slate-300 leading-relaxed mb-8">
+                <p>
+                  At <strong>Tieko Media</strong>, we believe that bringing people together shouldn't come with a price tag. Whether it's for global corporate bonding, team building exercises, weekend game nights, sports tournaments, or classroom activities, fair play is a universal right.
+                </p>
+                <p>
+                  That's why we've decided to make TeamShuffle a <strong>100% free utility for global use</strong>. No paywalls, no hidden fees, and absolutely no annoying ads to interrupt your flow.
+                </p>
+                <p>
+                  However, running real-time global servers, paying our dedicated developers, and continuously improving the app costs money. To keep TeamShuffle free and ad-free forever, we rely entirely on the generosity of our community.
+                </p>
+                <p className="font-bold text-white">
+                  If TeamShuffle has helped your team, please consider dropping a tip in our jar. Your contribution goes a long way in keeping the servers running and the shuffles fair!
+                </p>
+              </div>
+            </div>
+
+            <div className="p-6 border-t border-slate-800 bg-[#0F1520] shrink-0 relative z-10">
+              <Link 
+                href="/paywall"
+                onClick={() => setShowSupportModal(false)}
+                className="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-900 py-4 px-8 rounded-xl text-lg font-black transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20"
+              >
+                <Coffee className="size-6" /> Drop a Tip in the Jar
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

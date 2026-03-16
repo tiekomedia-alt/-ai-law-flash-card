@@ -1,6 +1,9 @@
+"use client";
+
 import React, { useState, useRef } from 'react';
-import { ArrowLeft, Users, ChevronUp, ChevronDown, Plus, X, Minus, Zap, CheckCircle2, Copy, Download, RefreshCw, Share2, Edit2, Check, Crown } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ArrowLeft, Users, ChevronUp, ChevronDown, Plus, X, Minus, Zap, CheckCircle2, Copy, Download, RefreshCw, Share2, Edit2, Check, Crown, Twitter, Instagram, Coffee } from 'lucide-react';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function CoreApp() {
   const [players, setPlayers] = useState<string[]>(['Alex', 'Jordan', 'Sam', 'Taylor', 'Casey', 'Morgan', 'Riley', 'Quinn', 'Jamie', 'Drew', 'Avery', 'Cameron']);
@@ -21,11 +24,10 @@ export default function CoreApp() {
   const [editingTeamPlayer, setEditingTeamPlayer] = useState<{teamIdx: number, playerIdx: number} | null>(null);
   const [editingTeamPlayerValue, setEditingTeamPlayerValue] = useState('');
 
-  // Premium & Customization state
+  // Customization state
   const [teamColorsMap, setTeamColorsMap] = useState<Record<number, string>>({});
-  const [isPremium, setIsPremium] = useState(false);
-  const [showPremiumModal, setShowPremiumModal] = useState(false);
-  const [removeWatermark, setRemoveWatermark] = useState(false);
+  const [teamNamesMap, setTeamNamesMap] = useState<Record<number, string>>({});
+  const [showTipJarModal, setShowTipJarModal] = useState(false);
 
   const addPlayer = () => {
     if (newPlayerName.trim() && !players.includes(newPlayerName.trim())) {
@@ -79,7 +81,9 @@ export default function CoreApp() {
     const shuffledPlayers = [...players];
     for (let i = shuffledPlayers.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [shuffledPlayers[i], shuffledPlayers[j]] = [shuffledPlayers[j], shuffledPlayers[i]];
+      const temp = shuffledPlayers[i];
+      shuffledPlayers[i] = shuffledPlayers[j];
+      shuffledPlayers[j] = temp;
     }
 
     // Distribute into teams
@@ -137,9 +141,9 @@ export default function CoreApp() {
 
   const DEFAULT_COLORS = ['#3b82f6', '#f97316', '#22c55e', '#a855f7', '#ec4899', '#eab308', '#06b6d4', '#f43f5e'];
   const getTeamColor = (index: number) => teamColorsMap[index] || DEFAULT_COLORS[index % DEFAULT_COLORS.length];
-  const getTeamName = (index: number) => `Team ${String.fromCharCode(65 + (index % 26))}${index >= 26 ? Math.floor(index/26) + 1 : ''}`;
+  const getTeamName = (index: number) => teamNamesMap[index] !== undefined ? teamNamesMap[index] : `Team ${String.fromCharCode(65 + (index % 26))}${index >= 26 ? Math.floor(index/26) + 1 : ''}`;
 
-  const downloadTeamCard = (teamIndex: number) => {
+  const downloadTeamCard = async (teamIndex: number) => {
     const team = teams[teamIndex];
     const teamColor = getTeamColor(teamIndex);
     const teamName = getTeamName(teamIndex);
@@ -209,9 +213,21 @@ export default function CoreApp() {
     ctx.fillRect(0, height - 160, width, 160);
 
     // Footer Branding
-    if (!removeWatermark) {
-      ctx.fillStyle = '#dc2626'; // accent
-      ctx.font = 'bold 32px Lexend, sans-serif';
+    ctx.fillStyle = '#dc2626'; // accent
+    ctx.font = 'bold 32px Lexend, sans-serif';
+    
+    try {
+      const logoImg = new window.Image();
+      logoImg.crossOrigin = "anonymous";
+      logoImg.src = "https://res.cloudinary.com/dspngcwzj/image/upload/v1773368448/enlarged_logo_team_shuf_g1bmvq.png";
+      await new Promise((resolve, reject) => {
+        logoImg.onload = resolve;
+        logoImg.onerror = reject;
+      });
+      
+      ctx.drawImage(logoImg, 60, height - 120, 40, 40);
+      ctx.fillText('TeamShuffle', 110, height - 90);
+    } catch (e) {
       ctx.fillText('TeamShuffle', 60, height - 90);
     }
 
@@ -255,17 +271,22 @@ export default function CoreApp() {
       {/* Top Bar */}
       <nav className="sticky top-0 z-50 bg-[#14171e]/80 backdrop-blur-md border-b border-[#192643]/30 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Link to="/" className="cursor-pointer hover:text-[#192643] transition-colors">
+          <Link href="/" className="cursor-pointer hover:text-[#192643] transition-colors">
             <ArrowLeft className="size-6" />
           </Link>
           <div className="flex items-center gap-2">
-            <div className="bg-[#dc2626] p-1 rounded">
-              <Users className="text-white size-4" />
-            </div>
+            <Image 
+              src="https://res.cloudinary.com/dspngcwzj/image/upload/v1773368448/enlarged_logo_team_shuf_g1bmvq.png" 
+              alt="TeamShuffle Logo" 
+              width={35} 
+              height={35} 
+              className="h-7 w-auto"
+              referrerPolicy="no-referrer"
+            />
             <h1 className="text-lg font-extrabold tracking-tight">TeamShuffle</h1>
           </div>
         </div>
-        <Link to="/global" className="text-sm font-bold text-slate-400 hover:text-[#dc2626] transition-colors">
+        <Link href="/global" className="text-sm font-bold text-slate-400 hover:text-[#dc2626] transition-colors">
           Dashboard
         </Link>
       </nav>
@@ -382,10 +403,7 @@ export default function CoreApp() {
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
             {/* Results Section Header */}
             <div className="space-y-3 pt-4 border-t border-[#192643]/30 mb-6">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="bg-[#192643]/40 px-3 py-1 rounded-full text-xs font-bold border border-[#192643]/20">
-                  Shuffle #{shuffleCount} — {players.length} players → {numTeams} teams
-                </div>
+              <div className="flex flex-wrap items-center justify-center gap-2">
                 <div className="bg-green-500/10 text-green-400 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
                   <CheckCircle2 className="size-3.5" /> Shuffled {shuffleCount} time{shuffleCount !== 1 ? 's' : ''}
                 </div>
@@ -394,17 +412,11 @@ export default function CoreApp() {
                 <span className="text-[10px] font-mono text-slate-500 tracking-widest uppercase">Serial: {serialNumber}</span>
                 <div className="flex items-center gap-3">
                   <button
-                    onClick={() => {
-                      if (isPremium) {
-                        setRemoveWatermark(!removeWatermark);
-                      } else {
-                        setShowPremiumModal(true);
-                      }
-                    }}
-                    className={`text-xs font-bold px-3 py-1 rounded-full transition-colors flex items-center gap-1 border ${removeWatermark ? 'bg-amber-500/20 text-amber-400 border-amber-500/30' : 'bg-slate-800 text-slate-400 border-slate-700 hover:bg-slate-700'}`}
+                    onClick={() => setShowTipJarModal(true)}
+                    className="text-xs font-bold px-3 py-1 rounded-full transition-colors flex items-center gap-1 border bg-emerald-500/20 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/30"
                   >
-                    <Crown className="size-3" />
-                    {removeWatermark ? 'Watermark Removed' : 'Remove Watermark'}
+                    <Coffee className="size-3" />
+                    Tip Jar
                   </button>
                   <button 
                     onClick={() => setIsEditingTeams(!isEditingTeams)}
@@ -440,11 +452,22 @@ export default function CoreApp() {
                               type="color" 
                               value={teamColor}
                               onChange={(e) => setTeamColorsMap({...teamColorsMap, [index]: e.target.value})}
-                              className="w-5 h-5 rounded cursor-pointer border-0 p-0 bg-transparent"
+                              className="w-5 h-5 rounded cursor-pointer border-0 p-0 bg-transparent shrink-0"
                               title="Change team color"
                             />
                           )}
-                          <h4 className="font-bold text-sm" style={{ color: teamColor }}>{teamName}</h4>
+                          {isEditingTeams ? (
+                            <input
+                              type="text"
+                              value={teamName}
+                              onChange={(e) => setTeamNamesMap({...teamNamesMap, [index]: e.target.value})}
+                              className="font-bold text-sm bg-slate-800 border border-slate-600 rounded px-1 outline-none w-full max-w-[150px]"
+                              style={{ color: teamColor }}
+                              placeholder="Team Name"
+                            />
+                          ) : (
+                            <h4 className="font-bold text-sm" style={{ color: teamColor }}>{teamName}</h4>
+                          )}
                         </div>
                         <button 
                           onClick={() => downloadTeamCard(index)}
@@ -531,32 +554,39 @@ export default function CoreApp() {
         )}
       </main>
 
-      <footer className="mt-12 mb-8 text-center">
+      <footer className="mt-12 mb-8 text-center flex flex-col items-center gap-4">
+        <div className="flex items-center gap-6">
+          <a href="https://x.com/tiekomedia" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-[#dc2626] transition-colors">
+            <Twitter className="size-5" />
+          </a>
+          <a href="https://www.instagram.com/tiekomedia?igsh=YTNmNTAyemFmdzhr" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-[#dc2626] transition-colors">
+            <Instagram className="size-5" />
+          </a>
+        </div>
         <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">TeamShuffle • Fair Teams. One Tap.</p>
       </footer>
 
-      {/* Premium Modal */}
-      {showPremiumModal && (
+      {/* Tip Jar Modal */}
+      {showTipJarModal && (
         <div className="fixed inset-0 z-[200] bg-[#0F1520]/90 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200">
           <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6 max-w-sm w-full shadow-2xl animate-in zoom-in-95 duration-200">
-            <div className="size-12 rounded-full bg-amber-500/20 text-amber-500 flex items-center justify-center mb-4 mx-auto">
-              <Crown className="size-6" />
+            <div className="size-12 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center mb-4 mx-auto">
+              <Coffee className="size-6" />
             </div>
-            <h3 className="text-xl font-black text-center text-white mb-2">Upgrade to Premium</h3>
-            <p className="text-slate-400 text-sm text-center mb-6">Remove the TeamShuffle watermark from your downloaded team cards and unlock unlimited possibilities.</p>
+            <h3 className="text-xl font-black text-center text-white mb-2">Support TeamShuffle</h3>
+            <p className="text-slate-400 text-sm text-center mb-6">If you find this app helpful for your games, consider buying us a coffee to keep the servers running!</p>
             <div className="space-y-3">
               <button
                 onClick={() => {
-                  setIsPremium(true);
-                  setRemoveWatermark(true);
-                  setShowPremiumModal(false);
+                  alert("Thanks for your support! (Tip functionality coming soon)");
+                  setShowTipJarModal(false);
                 }}
-                className="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-black py-3 rounded-xl transition-colors"
+                className="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-900 font-black py-3 rounded-xl transition-colors"
               >
-                Upgrade Now - $4.99
+                Buy us a Coffee ☕
               </button>
               <button
-                onClick={() => setShowPremiumModal(false)}
+                onClick={() => setShowTipJarModal(false)}
                 className="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-xl transition-colors"
               >
                 Maybe Later

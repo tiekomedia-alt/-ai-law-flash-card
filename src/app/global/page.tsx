@@ -1,5 +1,8 @@
+"use client";
+
 import { Shuffle, Bell, TrendingUp, Globe, ChevronRight, Users, User, LayoutDashboard, History, Settings } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function GlobalDashboard() {
   return (
@@ -8,9 +11,14 @@ export default function GlobalDashboard() {
       <header className="sticky top-0 z-50 bg-[#14171e]/80 backdrop-blur-md border-b border-[#192643]/30 px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="bg-[#192643] p-1.5 rounded-lg">
-              <Shuffle className="text-white size-5" />
-            </div>
+            <Image 
+              src="https://res.cloudinary.com/dspngcwzj/image/upload/v1773368448/enlarged_logo_team_shuf_g1bmvq.png" 
+              alt="TeamShuffle Logo" 
+              width={30} 
+              height={30} 
+              className="h-6 w-auto"
+              referrerPolicy="no-referrer"
+            />
             <div>
               <h1 className="text-sm font-bold uppercase tracking-wider text-slate-300">TeamShuffle</h1>
               <div className="flex items-center gap-2">
@@ -156,7 +164,7 @@ export default function GlobalDashboard() {
         <section className="p-6 text-center">
           <h4 className="text-lg font-bold mb-2">Ready to shuffle your team?</h4>
           <p className="text-sm text-slate-400 mb-6">Join thousands of teams worldwide in fair play.</p>
-          <Link to="/app" className="w-full py-4 bg-[#192643] text-white rounded-xl font-bold text-lg shadow-xl shadow-[#192643]/20 hover:scale-[0.98] transition-transform flex items-center justify-center gap-2">
+          <Link href="/app" className="w-full py-4 bg-[#192643] text-white rounded-xl font-bold text-lg shadow-xl shadow-[#192643]/20 hover:scale-[0.98] transition-transform flex items-center justify-center gap-2">
             <Shuffle className="size-6" />
             Shuffle Now
           </Link>
@@ -166,22 +174,22 @@ export default function GlobalDashboard() {
       {/* Bottom Navigation Bar */}
       <nav className="fixed bottom-0 left-0 right-0 bg-[#14171e] border-t border-[#192643]/30 z-50">
         <div className="flex gap-2 px-4 pb-6 pt-2">
-          <Link to="/global" className="flex flex-1 flex-col items-center justify-center gap-1 rounded-lg py-1 text-slate-100">
+          <Link href="/global" className="flex flex-1 flex-col items-center justify-center gap-1 rounded-lg py-1 text-slate-100">
             <LayoutDashboard className="size-6" />
             <p className="text-[10px] font-bold uppercase tracking-tight">Dashboard</p>
           </Link>
-          <Link to="/app" className="flex flex-1 flex-col items-center justify-center gap-1 rounded-lg py-1 text-slate-400">
+          <Link href="/app" className="flex flex-1 flex-col items-center justify-center gap-1 rounded-lg py-1 text-slate-400">
             <Users className="size-6" />
             <p className="text-[10px] font-bold uppercase tracking-tight">Teams</p>
           </Link>
-          <Link to="#" className="flex flex-1 flex-col items-center justify-center gap-1 rounded-lg py-1 text-slate-400">
+          <button className="flex flex-1 flex-col items-center justify-center gap-1 rounded-lg py-1 text-slate-400">
             <History className="size-6" />
             <p className="text-[10px] font-bold uppercase tracking-tight">History</p>
-          </Link>
-          <Link to="#" className="flex flex-1 flex-col items-center justify-center gap-1 rounded-lg py-1 text-slate-400">
+          </button>
+          <button className="flex flex-1 flex-col items-center justify-center gap-1 rounded-lg py-1 text-slate-400">
             <User className="size-6" />
             <p className="text-[10px] font-bold uppercase tracking-tight">Profile</p>
-          </Link>
+          </button>
         </div>
       </nav>
     </div>
