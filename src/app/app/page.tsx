@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
-import { ArrowLeft, Users, ChevronUp, ChevronDown, Plus, X, Minus, Zap, CheckCircle2, Copy, Download, RefreshCw, Share2, Edit2, Check, Crown, Twitter, Instagram, Coffee } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { ArrowLeft, Users, ChevronUp, ChevronDown, Plus, X, Minus, Zap, CheckCircle2, Copy, Download, RefreshCw, Share2, Edit2, Check, Crown, Coffee } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
+import LogoBrand from '@/components/LogoBrand';
+import SocialLinks from '@/components/SocialLinks';
 
 export default function CoreApp() {
   const [players, setPlayers] = useState<string[]>(['Alex', 'Jordan', 'Sam', 'Taylor', 'Casey', 'Morgan', 'Riley', 'Quinn', 'Jamie', 'Drew', 'Avery', 'Cameron']);
@@ -28,6 +29,14 @@ export default function CoreApp() {
   const [teamColorsMap, setTeamColorsMap] = useState<Record<number, string>>({});
   const [teamNamesMap, setTeamNamesMap] = useState<Record<number, string>>({});
   const [showTipJarModal, setShowTipJarModal] = useState(false);
+
+  const logoImgRef = useRef<HTMLImageElement | null>(null);
+  useEffect(() => {
+    const img = new window.Image();
+    img.crossOrigin = "anonymous";
+    img.src = "https://res.cloudinary.com/dspngcwzj/image/upload/v1773368448/enlarged_logo_team_shuf_g1bmvq.png";
+    img.onload = () => { logoImgRef.current = img; };
+  }, []);
 
   const addPlayer = () => {
     if (newPlayerName.trim() && !players.includes(newPlayerName.trim())) {
@@ -143,7 +152,7 @@ export default function CoreApp() {
   const getTeamColor = (index: number) => teamColorsMap[index] || DEFAULT_COLORS[index % DEFAULT_COLORS.length];
   const getTeamName = (index: number) => teamNamesMap[index] !== undefined ? teamNamesMap[index] : `Team ${String.fromCharCode(65 + (index % 26))}${index >= 26 ? Math.floor(index/26) + 1 : ''}`;
 
-  const downloadTeamCard = async (teamIndex: number) => {
+  const downloadTeamCard = (teamIndex: number) => {
     const team = teams[teamIndex];
     const teamColor = getTeamColor(teamIndex);
     const teamName = getTeamName(teamIndex);
@@ -152,9 +161,9 @@ export default function CoreApp() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Set canvas dimensions (high resolution for crisp text)
+    // Set canvas dimensions — height scales with team size to prevent content overflow
     const width = 800;
-    const height = 1000;
+    const height = Math.max(1000, 480 + team.length * 90);
     canvas.width = width;
     canvas.height = height;
 
@@ -216,18 +225,11 @@ export default function CoreApp() {
     ctx.fillStyle = '#dc2626'; // accent
     ctx.font = 'bold 32px Lexend, sans-serif';
     
-    try {
-      const logoImg = new window.Image();
-      logoImg.crossOrigin = "anonymous";
-      logoImg.src = "https://res.cloudinary.com/dspngcwzj/image/upload/v1773368448/enlarged_logo_team_shuf_g1bmvq.png";
-      await new Promise((resolve, reject) => {
-        logoImg.onload = resolve;
-        logoImg.onerror = reject;
-      });
-      
+    const logoImg = logoImgRef.current;
+    if (logoImg) {
       ctx.drawImage(logoImg, 60, height - 120, 40, 40);
       ctx.fillText('TeamShuffle', 110, height - 90);
-    } catch (e) {
+    } else {
       ctx.fillText('TeamShuffle', 60, height - 90);
     }
 
@@ -243,7 +245,7 @@ export default function CoreApp() {
     // Trigger download
     const dataUrl = canvas.toDataURL('image/png');
     const link = document.createElement('a');
-    link.download = `TeamShuffle-${teamName.replace(' ', '')}-${serialNumber}.png`;
+    link.download = `TeamShuffle-${teamName.replaceAll(' ', '')}-${serialNumber}.png`;
     link.href = dataUrl;
     link.click();
   };
@@ -274,17 +276,7 @@ export default function CoreApp() {
           <Link href="/" className="cursor-pointer hover:text-[#192643] transition-colors">
             <ArrowLeft className="size-6" />
           </Link>
-          <div className="flex items-center gap-2">
-            <Image 
-              src="https://res.cloudinary.com/dspngcwzj/image/upload/v1773368448/enlarged_logo_team_shuf_g1bmvq.png" 
-              alt="TeamShuffle Logo" 
-              width={35} 
-              height={35} 
-              className="h-7 w-auto"
-              referrerPolicy="no-referrer"
-            />
-            <h1 className="text-lg font-extrabold tracking-tight">TeamShuffle</h1>
-          </div>
+          <LogoBrand size="md" />
         </div>
         <Link href="/global" className="text-sm font-bold text-slate-400 hover:text-[#dc2626] transition-colors">
           Dashboard
@@ -555,14 +547,7 @@ export default function CoreApp() {
       </main>
 
       <footer className="mt-12 mb-8 text-center flex flex-col items-center gap-4">
-        <div className="flex items-center gap-6">
-          <a href="https://x.com/tiekomedia" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-[#dc2626] transition-colors">
-            <Twitter className="size-5" />
-          </a>
-          <a href="https://www.instagram.com/tiekomedia?igsh=YTNmNTAyemFmdzhr" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-[#dc2626] transition-colors">
-            <Instagram className="size-5" />
-          </a>
-        </div>
+        <SocialLinks iconClassName="size-5" linkClassName="text-slate-500" />
         <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">TeamShuffle • Fair Teams. One Tap.</p>
       </footer>
 
