@@ -1,0 +1,18 @@
+{
+  "name": "lawflash-ai-scripts",
+  "version": "1.0.0",
+  "description": "LawFlash AI content pipeline scripts",
+  "type": "module",
+  "scripts": {
+    "process-documents": "tsx scripts/process-documents.ts",
+    "generate-embeddings": "tsx scripts/generate-embeddings.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}
