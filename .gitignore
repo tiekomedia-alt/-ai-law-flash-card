@@ -4,6 +4,10 @@ dist/
 coverage/
 .DS_Store
 *.log
+*.tsbuildinfo
+.next/
+web/.next/
+web/.codex-logs/
 .env*
 !.env.example
 supabase/.temp/
