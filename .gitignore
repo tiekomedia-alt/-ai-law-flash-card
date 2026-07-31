@@ -1,0 +1,57 @@
+# ============================================================
+# LawFlash AI — .gitignore
+# ============================================================
+
+# Environment variables — NEVER commit these
+.env
+.env.local
+.env.production
+.env.staging
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Python (for AI pipeline scripts)
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.Python
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor files
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# AI pipeline outputs (large files)
+pipeline/output/
+pipeline/chunks/
+pipeline/*.txt
+pipeline/*.json
+
+# Supabase local dev (if used)
+.branches
+.temp
+
+# Next.js (landing page)
+landing/.next/
+landing/out/
+landing/.env.local
+
+# Logs
+logs/
+*.log

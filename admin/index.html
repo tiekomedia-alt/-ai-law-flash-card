@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LawFlash AI — Admin Content Curation Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-slate-800 border-b border-slate-700 p-4 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center font-bold text-white text-xl">🏛️</div>
+        <div>
+          <h1 class="text-xl font-bold text-white">LawFlash AI — Founder Admin Curation</h1>
+          <p class="text-xs text-slate-400">Review & Approve AI-Generated Flashcards & MCQs</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <button id="batch-approve-btn" onclick="batchApproveHighConfidence()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-xs font-bold transition-all shadow-md">
+          ⚡ Batch Approve High Confidence (>90%)
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Filter & Controls -->
+  <main class="max-w-7xl mx-auto p-6">
+    <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 mb-6 flex flex-wrap gap-4 items-center justify-between">
+      <div class="flex gap-4 items-center">
+        <div>
+          <label class="text-xs text-slate-400 font-medium block mb-1">Status Filter</label>
+          <select id="status-filter" onchange="loadCards()" class="bg-slate-900 border border-slate-700 text-sm rounded-lg px-3 py-2 text-white outline-none focus:border-indigo-500">
+            <option value="pending_review">Pending Review ⏳</option>
+            <option value="approved">Approved ✅</option>
+            <option value="rejected">Rejected ❌</option>
+            <option value="flagged">Flagged 🚩</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs text-slate-400 font-medium block mb-1">Type</label>
+          <select id="type-filter" onchange="loadCards()" class="bg-slate-900 border border-slate-700 text-sm rounded-lg px-3 py-2 text-white outline-none focus:border-indigo-500">
+            <option value="flashcards">Flashcards 🃏</option>
+            <option value="mcq">MCQ Questions ❓</option>
+          </select>
+        </div>
+      </div>
+      <div class="text-slate-400 text-sm">
+        Showing: <span id="count-badge" class="font-bold text-white">0</span> items
+      </div>
+    </div>
+
+    <!-- Content Grid -->
+    <div id="cards-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="col-span-2 text-center py-12 text-slate-500">Loading content...</div>
+    </div>
+  </main>
+
+  <script>
+    // Config from .env
+    const SUPABASE_URL = "https://hjlzqandwglgxdbtsget.supabase.co";
+    const SUPABASE_SERVICE_ROLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhqbHpxYW5kd2dsZ3hkYnRzZ2V0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MzgyNTMxNiwiZXhwIjoyMDg5NDAxMzE2fQ.5ofiJap1ArAohTENssY_HyhG5I_nL7Zj3FxWtN8k3O8";
+
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+
+    async function loadCards() {
+      const status = document.getElementById("status-filter").value;
+      const type = document.getElementById("type-filter").value;
+      const container = document.getElementById("cards-container");
+      container.innerHTML = `<div class="col-span-2 text-center py-12 text-slate-500">Loading...</div>`;
+
+      if (type === "flashcards") {
+        const { data, error } = await supabase
+          .from("flashcards")
+          .select("*")
+          .eq("status", status)
+          .order("created_at", { ascending: false });
+
+        if (error) {
+          container.innerHTML = `<div class="col-span-2 text-red-400 p-4">Error: ${error.message}</div>`;
+          return;
+        }
+
+        document.getElementById("count-badge").innerText = data.length;
+
+        if (data.length === 0) {
+          container.innerHTML = `<div class="col-span-2 text-center py-12 text-slate-500">No flashcards matching status "${status}".</div>`;
+          return;
+        }
+
+        container.innerHTML = data.map(card => `
+          <div class="bg-slate-800 rounded-xl p-5 border border-slate-700 flex flex-col justify-between shadow-lg">
+            <div>
+              <div class="flex justify-between items-center mb-3">
+                <span class="bg-indigo-950 text-indigo-400 border border-indigo-800 text-[10px] font-bold px-2 py-0.5 rounded uppercase">${card.difficulty || 'Recall'}</span>
+                <span class="text-xs font-semibold ${card.confidence_score >= 0.9 ? 'text-emerald-400' : 'text-amber-400'}">Confidence: ${Math.round((card.confidence_score || 0.8) * 100)}%</span>
+              </div>
+              <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Front (Question)</p>
+              <h3 class="text-white font-bold text-base mb-4 leading-snug">${escapeHtml(card.front_text)}</h3>
+              <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Back (Answer)</p>
+              <p class="text-slate-300 text-sm leading-relaxed mb-4 bg-slate-900/60 p-3 rounded-lg border border-slate-800">${escapeHtml(card.back_text)}</p>
+              ${card.source_reference ? `<p class="text-xs text-indigo-300 italic mb-2">Authority: ${escapeHtml(card.source_reference)}</p>` : ''}
+            </div>
+            <div class="flex gap-2 pt-4 border-t border-slate-700/60 mt-2">
+              <button onclick="updateStatus('flashcards', '${card.id}', 'approved')" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-2 rounded-lg transition-colors">Approve ✅</button>
+              <button onclick="updateStatus('flashcards', '${card.id}', 'rejected')" class="flex-1 bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs py-2 rounded-lg transition-colors">Reject ❌</button>
+            </div>
+          </div>
+        `).join("");
+      } else {
+        // MCQs
+        const { data, error } = await supabase
+          .from("mcq_questions")
+          .select("*")
+          .eq("status", status)
+          .order("created_at", { ascending: false });
+
+        if (error) {
+          container.innerHTML = `<div class="col-span-2 text-red-400 p-4">Error: ${error.message}</div>`;
+          return;
+        }
+
+        document.getElementById("count-badge").innerText = data.length;
+
+        if (data.length === 0) {
+          container.innerHTML = `<div class="col-span-2 text-center py-12 text-slate-500">No MCQs matching status "${status}".</div>`;
+          return;
+        }
+
+        container.innerHTML = data.map(mcq => `
+          <div class="bg-slate-800 rounded-xl p-5 border border-slate-700 flex flex-col justify-between shadow-lg">
+            <div>
+              <div class="flex justify-between items-center mb-3">
+                <span class="bg-purple-950 text-purple-400 border border-purple-800 text-[10px] font-bold px-2 py-0.5 rounded uppercase">MCQ • ${mcq.difficulty || 'Medium'}</span>
+              </div>
+              <h3 class="text-white font-bold text-base mb-4 leading-snug">${escapeHtml(mcq.question_text)}</h3>
+              <div class="space-y-2 mb-4">
+                ${Object.entries(mcq.options || {}).map(([key, val]) => `
+                  <div class="text-xs p-2 rounded ${key === mcq.correct_answer ? 'bg-emerald-950/80 border border-emerald-700 text-emerald-300 font-bold' : 'bg-slate-900 text-slate-300'}">
+                    ${key.toUpperCase()}: ${escapeHtml(val)}
+                  </div>
+                `).join("")}
+              </div>
+              <p class="text-xs text-slate-400 bg-slate-900/60 p-2.5 rounded border border-slate-800 mb-2"><strong class="text-indigo-300">Explanation:</strong> ${escapeHtml(mcq.explanation || 'N/A')}</p>
+            </div>
+            <div class="flex gap-2 pt-4 border-t border-slate-700/60 mt-2">
+              <button onclick="updateStatus('mcq_questions', '${mcq.id}', 'approved')" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-2 rounded-lg transition-colors">Approve ✅</button>
+              <button onclick="updateStatus('mcq_questions', '${mcq.id}', 'rejected')" class="flex-1 bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs py-2 rounded-lg transition-colors">Reject ❌</button>
+            </div>
+          </div>
+        `).join("");
+      }
+    }
+
+    async function updateStatus(table, id, newStatus) {
+      const { error } = await supabase
+        .from(table)
+        .update({ status: newStatus })
+        .eq("id", id);
+
+      if (error) {
+        alert("Error updating status: " + error.message);
+      } else {
+        loadCards();
+      }
+    }
+
+    async function batchApproveHighConfidence() {
+      if (!confirm("Are you sure you want to approve all pending flashcards with confidence >= 90%?")) return;
+      const { error } = await supabase
+        .from("flashcards")
+        .update({ status: "approved" })
+        .eq("status", "pending_review")
+        .gte("confidence_score", 0.90);
+
+      if (error) alert("Error: " + error.message);
+      else {
+        alert("High-confidence flashcards approved!");
+        loadCards();
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    // Initial load
+    loadCards();
+  </script>
+</body>
+</html>

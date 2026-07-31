@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LawFlash AI - AI-Powered Flashcards</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<script>tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#1a3b70", "accent-gold": "#c5a059" } } } }</script>
+<style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 dark:bg-[#13181f] min-h-screen">
+<div class="flex flex-col min-h-screen max-w-sm mx-auto">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between p-5">
+    <a href="onboarding-1.html" class="w-9 h-9 rounded-full bg-white border border-slate-200 flex items-center justify-center shadow-sm">
+      <span class="material-symbols-outlined text-slate-600 text-lg">arrow_back</span>
+    </a>
+    <div class="flex gap-1.5">
+      <div class="h-1.5 w-6 rounded-full bg-primary/20"></div>
+      <div class="h-1.5 w-8 rounded-full bg-primary"></div>
+      <div class="h-1.5 w-6 rounded-full bg-primary/20"></div>
+    </div>
+    <a href="auth.html" class="text-slate-400 text-sm font-medium">Skip</a>
+  </div>
+
+  <!-- Flashcard Preview -->
+  <div class="px-6 pt-4 flex-grow">
+    <div class="relative">
+      <!-- Back card shadow -->
+      <div class="absolute top-3 left-3 right-0 h-[220px] bg-accent-gold/30 rounded-2xl border border-accent-gold/20"></div>
+      <!-- Main card -->
+      <div class="relative bg-gradient-to-br from-primary to-[#0d2347] rounded-2xl p-6 shadow-2xl min-h-[220px] flex flex-col justify-between border border-primary/20">
+        <div class="flex justify-between items-start">
+          <span class="text-xs text-accent-gold/80 font-bold uppercase tracking-widest bg-accent-gold/10 px-2 py-1 rounded-lg">Criminal Litigation</span>
+          <span class="material-symbols-outlined text-accent-gold/60 text-xl">auto_awesome</span>
+        </div>
+        <div>
+          <p class="text-slate-300 text-xs font-semibold uppercase tracking-wider mb-2">Question</p>
+          <p class="text-white font-bold text-[17px] leading-snug">What is the effect of non-compliance with mandatory provisions of the Administration of Criminal Justice Act?</p>
+        </div>
+        <div class="flex justify-between items-center pt-4 border-t border-white/10">
+          <span class="text-slate-400 text-xs">Tap to reveal answer</span>
+          <span class="material-symbols-outlined text-accent-gold text-lg">flip</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature List -->
+    <div class="mt-10 space-y-5">
+      <div class="flex gap-4 items-start">
+        <div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center flex-shrink-0 border border-primary/20">
+          <span class="material-symbols-outlined text-primary text-2xl">psychology</span>
+        </div>
+        <div>
+          <h3 class="text-slate-900 dark:text-white font-bold text-base">RAG-Powered AI Cards</h3>
+          <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mt-0.5">Cards built directly from Nigerian Law School curriculum materials — accurate, concise, and exam-focused.</p>
+        </div>
+      </div>
+      <div class="flex gap-4 items-start">
+        <div class="w-12 h-12 rounded-2xl bg-accent-gold/10 flex items-center justify-center flex-shrink-0 border border-accent-gold/20">
+          <span class="material-symbols-outlined text-accent-gold text-2xl">timeline</span>
+        </div>
+        <div>
+          <h3 class="text-slate-900 dark:text-white font-bold text-base">Spaced Repetition (SM-2)</h3>
+          <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mt-0.5">The SM-2 algorithm shows you the right cards at the right time so nothing falls out of memory before exam day.</p>
+        </div>
+      </div>
+      <div class="flex gap-4 items-start">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center flex-shrink-0 border border-emerald-100">
+          <span class="material-symbols-outlined text-emerald-600 text-2xl">bolt</span>
+        </div>
+        <div>
+          <h3 class="text-slate-900 dark:text-white font-bold text-base">59-Minute Exam Simulations</h3>
+          <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mt-0.5">Timed Bar Final mock exams with instant topic-by-topic breakdown and weak area diagnostics.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="px-6 pb-10 pt-8">
+    <a href="onboarding-3.html" class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-5 rounded-xl text-lg shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-all">
+      Continue
+      <span class="material-symbols-outlined">arrow_forward</span>
+    </a>
+  </div>
+
+</div>
+</body>
+</html>

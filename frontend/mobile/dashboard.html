@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LawFlash AI - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<script>tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#1a3b70", "accent-gold": "#c5a059" } } } }</script>
+<style>
+body { font-family: 'Inter', sans-serif; background: #f6f7f8; }
+.progress-ring { transform: rotate(-90deg); }
+</style>
+</head>
+<body class="bg-slate-100 min-h-screen pb-24">
+
+  <!-- Top Bar -->
+  <div class="bg-primary px-5 pt-10 pb-16 relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-48 h-48 rounded-full bg-white/5 -translate-y-16 translate-x-16"></div>
+    <div class="absolute bottom-0 left-0 w-32 h-32 rounded-full bg-white/5 translate-y-12 -translate-x-12"></div>
+    <div class="flex items-center justify-between relative z-10">
+      <div>
+        <p class="text-blue-200 text-xs font-semibold">Good morning 👋</p>
+        <h2 class="text-white text-xl font-extrabold mt-0.5">Chukwuemeka!</h2>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-1.5 bg-white/15 px-3 py-1.5 rounded-full border border-white/20">
+          <span class="text-orange-300 text-lg">🔥</span>
+          <span class="text-white font-bold text-sm">14</span>
+          <span class="text-blue-200 text-xs">day streak</span>
+        </div>
+        <div class="w-10 h-10 rounded-full bg-accent-gold flex items-center justify-center font-black text-white text-lg shadow-md">C</div>
+      </div>
+    </div>
+
+    <!-- Progress Card -->
+    <div class="relative z-10 mt-5 bg-white/15 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-blue-100 text-xs font-semibold">Today's Goal</p>
+          <p class="text-white text-2xl font-extrabold mt-0.5">18 <span class="text-base font-medium text-blue-200">/ 25 cards</span></p>
+          <p class="text-blue-200 text-xs mt-1">7 cards left to hit your target</p>
+        </div>
+        <div class="relative w-16 h-16">
+          <svg class="progress-ring w-16 h-16" viewBox="0 0 56 56">
+            <circle cx="28" cy="28" r="22" stroke="rgba(255,255,255,0.15)" stroke-width="5" fill="none"/>
+            <circle cx="28" cy="28" r="22" stroke="#c5a059" stroke-width="5" fill="none" stroke-dasharray="138" stroke-dashoffset="38" stroke-linecap="round"/>
+          </svg>
+          <span class="absolute inset-0 flex items-center justify-center text-white font-extrabold text-sm">72%</span>
+        </div>
+      </div>
+      <div class="mt-3 bg-white/10 rounded-full h-2">
+        <div class="bg-accent-gold h-2 rounded-full" style="width: 72%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="px-5 -mt-6 relative z-20">
+
+    <!-- XP & Stats Row -->
+    <div class="grid grid-cols-3 gap-3 mb-5">
+      <div class="bg-white rounded-2xl p-3 shadow-sm border border-slate-100 text-center">
+        <p class="text-slate-400 text-[10px] font-bold uppercase">Total XP</p>
+        <p class="text-primary font-extrabold text-lg mt-0.5">2,450</p>
+      </div>
+      <div class="bg-white rounded-2xl p-3 shadow-sm border border-slate-100 text-center">
+        <p class="text-slate-400 text-[10px] font-bold uppercase">Cards Done</p>
+        <p class="text-primary font-extrabold text-lg mt-0.5">347</p>
+      </div>
+      <div class="bg-white rounded-2xl p-3 shadow-sm border border-slate-100 text-center">
+        <p class="text-slate-400 text-[10px] font-bold uppercase">Rank</p>
+        <p class="text-primary font-extrabold text-lg mt-0.5">#12</p>
+      </div>
+    </div>
+
+    <!-- Study Actions -->
+    <div class="grid grid-cols-2 gap-3 mb-5">
+      <a href="study.html" class="bg-primary rounded-2xl p-4 shadow-sm flex flex-col gap-2 hover:bg-primary/90 transition-colors">
+        <span class="material-symbols-outlined text-accent-gold text-2xl">style</span>
+        <p class="text-white font-extrabold text-base">Study Cards</p>
+        <p class="text-blue-200 text-xs">25 due for review today</p>
+      </a>
+      <a href="exam.html" class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex flex-col gap-2 hover:bg-slate-50 transition-colors">
+        <span class="material-symbols-outlined text-red-500 text-2xl">timer</span>
+        <p class="text-slate-900 font-extrabold text-base">MCQ Exam</p>
+        <p class="text-slate-400 text-xs">59-min simulation</p>
+      </a>
+    </div>
+
+    <!-- Brain Workout -->
+    <div class="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl p-4 shadow-sm mb-5 flex items-center justify-between">
+      <div>
+        <p class="text-purple-200 text-xs font-bold">Daily Challenge</p>
+        <p class="text-white font-extrabold text-base mt-0.5">Brain Workout ⚡</p>
+        <p class="text-purple-200 text-xs mt-1">5-min mixed drill • +50 XP</p>
+      </div>
+      <div class="w-14 h-14 rounded-xl bg-white/20 flex items-center justify-center backdrop-blur-sm">
+        <span class="material-symbols-outlined text-white text-2xl">fitness_center</span>
+      </div>
+    </div>
+
+    <!-- Courses -->
+    <h3 class="text-slate-700 text-sm font-extrabold uppercase tracking-wider mb-3">Your Courses</h3>
+    <div class="space-y-3">
+      <a href="study.html" class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex items-center gap-4 hover:bg-slate-50 transition-colors">
+        <div class="w-11 h-11 rounded-xl bg-red-50 flex items-center justify-center border border-red-100">
+          <span class="material-symbols-outlined text-red-500">gavel</span>
+        </div>
+        <div class="flex-grow">
+          <p class="text-slate-900 font-bold text-sm">Criminal Litigation</p>
+          <div class="flex items-center gap-2 mt-1">
+            <div class="flex-grow bg-slate-100 rounded-full h-1.5">
+              <div class="bg-primary h-1.5 rounded-full" style="width: 42%"></div>
+            </div>
+            <span class="text-slate-400 text-[10px] font-bold">42%</span>
+          </div>
+        </div>
+        <span class="material-symbols-outlined text-slate-300">chevron_right</span>
+      </a>
+      <a href="study.html" class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex items-center gap-4 hover:bg-slate-50 transition-colors">
+        <div class="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center border border-blue-100">
+          <span class="material-symbols-outlined text-blue-500">balance</span>
+        </div>
+        <div class="flex-grow">
+          <p class="text-slate-900 font-bold text-sm">Civil Litigation</p>
+          <div class="flex items-center gap-2 mt-1">
+            <div class="flex-grow bg-slate-100 rounded-full h-1.5">
+              <div class="bg-blue-500 h-1.5 rounded-full" style="width: 28%"></div>
+            </div>
+            <span class="text-slate-400 text-[10px] font-bold">28%</span>
+          </div>
+        </div>
+        <span class="material-symbols-outlined text-slate-300">chevron_right</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Bottom Nav -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 flex items-center justify-around px-4 py-3 z-50 max-w-sm mx-auto shadow-2xl">
+    <a href="dashboard.html" class="flex flex-col items-center gap-0.5">
+      <span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings: 'FILL' 1">home</span>
+      <span class="text-primary text-[10px] font-bold">Home</span>
+    </a>
+    <a href="study.html" class="flex flex-col items-center gap-0.5">
+      <span class="material-symbols-outlined text-slate-400 text-2xl">style</span>
+      <span class="text-slate-400 text-[10px] font-medium">Study</span>
+    </a>
+    <a href="exam.html" class="flex flex-col items-center gap-0.5">
+      <span class="material-symbols-outlined text-slate-400 text-2xl">quiz</span>
+      <span class="text-slate-400 text-[10px] font-medium">Exam</span>
+    </a>
+    <a href="leaderboard.html" class="flex flex-col items-center gap-0.5">
+      <span class="material-symbols-outlined text-slate-400 text-2xl">leaderboard</span>
+      <span class="text-slate-400 text-[10px] font-medium">Ranks</span>
+    </a>
+    <a href="analytics.html" class="flex flex-col items-center gap-0.5">
+      <span class="material-symbols-outlined text-slate-400 text-2xl">bar_chart</span>
+      <span class="text-slate-400 text-[10px] font-medium">Progress</span>
+    </a>
+  </nav>
+
+</body>
+</html>

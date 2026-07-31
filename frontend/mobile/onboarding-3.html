@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LawFlash AI - Choose Your Courses</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<script>tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#1a3b70", "accent-gold": "#c5a059" } } } }</script>
+<style>body { font-family: 'Inter', sans-serif; }
+.course-card.selected { border-color: #1a3b70; background: #eef2ff; }
+.course-card.selected .check-icon { display: flex; }
+.course-card .check-icon { display: none; }
+</style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+<div class="flex flex-col min-h-screen max-w-sm mx-auto">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between p-5">
+    <a href="onboarding-2.html" class="w-9 h-9 rounded-full bg-white border border-slate-200 flex items-center justify-center shadow-sm">
+      <span class="material-symbols-outlined text-slate-600 text-lg">arrow_back</span>
+    </a>
+    <div class="flex gap-1.5">
+      <div class="h-1.5 w-6 rounded-full bg-primary/20"></div>
+      <div class="h-1.5 w-6 rounded-full bg-primary/20"></div>
+      <div class="h-1.5 w-8 rounded-full bg-primary"></div>
+    </div>
+    <div class="w-9"></div>
+  </div>
+
+  <div class="px-6 pb-4">
+    <h1 class="text-slate-900 text-2xl font-extrabold leading-tight">Select Your Bar Final Courses</h1>
+    <p class="text-slate-500 mt-1.5 text-sm">Choose one or more courses to begin. You can change this later in settings.</p>
+  </div>
+
+  <!-- Course List -->
+  <div class="px-6 flex-grow space-y-3">
+
+    <div onclick="toggleCourse(this)" class="course-card selected flex items-center gap-4 p-4 bg-white rounded-2xl border-2 border-primary cursor-pointer transition-all shadow-sm">
+      <div class="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center border border-red-100">
+        <span class="material-symbols-outlined text-red-500 text-2xl">gavel</span>
+      </div>
+      <div class="flex-grow">
+        <p class="text-slate-900 font-bold text-sm">Criminal Litigation</p>
+        <p class="text-slate-400 text-xs mt-0.5">25 chapters • 400+ cards</p>
+      </div>
+      <div class="check-icon w-6 h-6 rounded-full bg-primary items-center justify-center">
+        <span class="material-symbols-outlined text-white text-sm">check</span>
+      </div>
+    </div>
+
+    <div onclick="toggleCourse(this)" class="course-card flex items-center gap-4 p-4 bg-white rounded-2xl border-2 border-slate-200 cursor-pointer transition-all shadow-sm hover:border-primary/40">
+      <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center border border-blue-100">
+        <span class="material-symbols-outlined text-blue-500 text-2xl">balance</span>
+      </div>
+      <div class="flex-grow">
+        <p class="text-slate-900 font-bold text-sm">Civil Litigation</p>
+        <p class="text-slate-400 text-xs mt-0.5">25 chapters • 400+ cards</p>
+      </div>
+      <div class="check-icon w-6 h-6 rounded-full bg-primary items-center justify-center">
+        <span class="material-symbols-outlined text-white text-sm">check</span>
+      </div>
+    </div>
+
+    <div onclick="toggleCourse(this)" class="course-card flex items-center gap-4 p-4 bg-white rounded-2xl border-2 border-slate-200 cursor-pointer transition-all shadow-sm hover:border-primary/40">
+      <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center border border-emerald-100">
+        <span class="material-symbols-outlined text-emerald-600 text-2xl">verified_user</span>
+      </div>
+      <div class="flex-grow">
+        <p class="text-slate-900 font-bold text-sm">Professional Ethics</p>
+        <p class="text-slate-400 text-xs mt-0.5">25 chapters • 300+ cards</p>
+      </div>
+      <div class="check-icon w-6 h-6 rounded-full bg-primary items-center justify-center">
+        <span class="material-symbols-outlined text-white text-sm">check</span>
+      </div>
+    </div>
+
+    <div onclick="toggleCourse(this)" class="course-card flex items-center gap-4 p-4 bg-white rounded-2xl border-2 border-slate-200 cursor-pointer transition-all shadow-sm hover:border-primary/40">
+      <div class="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center border border-purple-100">
+        <span class="material-symbols-outlined text-purple-600 text-2xl">corporate_fare</span>
+      </div>
+      <div class="flex-grow">
+        <p class="text-slate-900 font-bold text-sm">Company Law & Practice</p>
+        <p class="text-slate-400 text-xs mt-0.5">25 chapters • 350+ cards</p>
+      </div>
+      <div class="check-icon w-6 h-6 rounded-full bg-primary items-center justify-center">
+        <span class="material-symbols-outlined text-white text-sm">check</span>
+      </div>
+    </div>
+
+    <div onclick="toggleCourse(this)" class="course-card flex items-center gap-4 p-4 bg-white rounded-2xl border-2 border-slate-200 cursor-pointer transition-all shadow-sm hover:border-primary/40">
+      <div class="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center border border-amber-100">
+        <span class="material-symbols-outlined text-amber-600 text-2xl">domain</span>
+      </div>
+      <div class="flex-grow">
+        <p class="text-slate-900 font-bold text-sm">Property Law & Practice</p>
+        <p class="text-slate-400 text-xs mt-0.5">25 chapters • 380+ cards</p>
+      </div>
+      <div class="check-icon w-6 h-6 rounded-full bg-primary items-center justify-center">
+        <span class="material-symbols-outlined text-white text-sm">check</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="px-6 pb-10 pt-6">
+    <a href="auth.html" id="continue-btn" class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-5 rounded-xl text-lg shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-all">
+      Continue — 1 Selected
+      <span class="material-symbols-outlined">arrow_forward</span>
+    </a>
+  </div>
+
+</div>
+<script>
+let count = 1;
+function toggleCourse(el) {
+  el.classList.toggle('selected');
+  const isNowSelected = el.classList.contains('selected');
+  count = isNowSelected ? count + 1 : count - 1;
+  const btn = document.getElementById('continue-btn');
+  if (count === 0) {
+    btn.textContent = 'Select at least 1 course';
+    btn.classList.add('opacity-50', 'pointer-events-none');
+  } else {
+    btn.innerHTML = `Continue — ${count} Selected <span class="material-symbols-outlined">arrow_forward</span>`;
+    btn.classList.remove('opacity-50', 'pointer-events-none');
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LawFlash AI - Study Flashcards</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<script>tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#1a3b70", "accent-gold": "#c5a059" } } } }</script>
+<style>
+body { font-family: 'Inter', sans-serif; background: #f6f7f8; }
+.card-container { perspective: 1000px; }
+.flashcard { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); cursor: pointer; }
+.flashcard.flipped { transform: rotateY(180deg); }
+.card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; padding: 1.5rem; }
+.card-front { background: linear-gradient(135deg, #1a3b70 0%, #0d2347 100%); }
+.card-back { background: linear-gradient(135deg, #065f46 0%, #064e3b 100%); transform: rotateY(180deg); }
+.rating-btn { transition: transform 0.1s; }
+.rating-btn:active { transform: scale(0.95); }
+</style>
+</head>
+<body class="bg-slate-100 min-h-screen pb-8">
+
+  <!-- Header -->
+  <div class="bg-white border-b border-slate-100 px-5 pt-10 pb-4">
+    <div class="flex items-center justify-between">
+      <a href="dashboard.html" class="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center">
+        <span class="material-symbols-outlined text-slate-600 text-lg">close</span>
+      </a>
+      <div class="text-center">
+        <p class="text-slate-500 text-xs font-semibold">Criminal Litigation</p>
+        <p class="text-slate-900 font-bold text-sm">Chapter 3 — Arrest & Bail</p>
+      </div>
+      <div class="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center">
+        <span class="material-symbols-outlined text-slate-500 text-lg">more_horiz</span>
+      </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="mt-4">
+      <div class="flex justify-between text-xs text-slate-400 font-medium mb-1.5">
+        <span>Card <span id="current-card" class="text-slate-700 font-bold">3</span> of 25</span>
+        <span class="text-primary font-bold" id="xp-display">+15 XP earned</span>
+      </div>
+      <div class="bg-slate-200 rounded-full h-2">
+        <div id="progress-bar" class="bg-primary h-2 rounded-full transition-all duration-500" style="width: 12%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flashcard -->
+  <div class="px-5 py-6">
+    <div class="card-container h-[340px]">
+      <div id="flashcard" class="flashcard" onclick="flipCard()">
+        <!-- Front -->
+        <div class="card-face card-front shadow-2xl shadow-primary/30 border border-primary/20">
+          <div class="flex justify-between items-start">
+            <span class="text-xs text-accent-gold/80 font-bold uppercase tracking-widest bg-accent-gold/10 px-2 py-1 rounded-lg border border-accent-gold/20">Application</span>
+            <span class="material-symbols-outlined text-white/20">auto_awesome</span>
+          </div>
+          <div class="text-center">
+            <p class="text-blue-200 text-xs font-semibold uppercase tracking-wider mb-3">Question</p>
+            <p id="question-text" class="text-white font-bold text-[19px] leading-snug">What are the conditions for bail under the Administration of Criminal Justice Act 2015?</p>
+          </div>
+          <div class="flex items-center justify-center gap-2 opacity-60">
+            <span class="material-symbols-outlined text-white text-lg">touch_app</span>
+            <span class="text-white text-xs font-medium">Tap to reveal answer</span>
+          </div>
+        </div>
+        <!-- Back -->
+        <div class="card-face card-back shadow-2xl shadow-emerald-900/30 border border-emerald-700/20">
+          <div class="flex justify-between items-start">
+            <span class="text-xs text-emerald-300/80 font-bold uppercase tracking-widest bg-emerald-900/40 px-2 py-1 rounded-lg border border-emerald-700/30">Answer</span>
+            <span class="material-symbols-outlined text-emerald-400/60">check_circle</span>
+          </div>
+          <div>
+            <p class="text-emerald-100 font-semibold text-base leading-relaxed">Under S. 158–185 ACJA 2015, bail may be granted considering: (1) nature & gravity of the offence, (2) likelihood of fleeing, (3) character & antecedents of the accused, (4) strength of evidence against the suspect, (5) whether offence involves a firearm.</p>
+          </div>
+          <div class="bg-emerald-900/40 rounded-xl p-3 border border-emerald-700/30">
+            <p class="text-emerald-300 text-xs font-bold">⚖️ Authority</p>
+            <p class="text-emerald-100 text-xs mt-0.5">Sections 158–185, Administration of Criminal Justice Act 2015</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rating Buttons (show after flip) -->
+    <div id="rating-buttons" class="hidden mt-2">
+      <p class="text-center text-slate-500 text-xs font-semibold mb-4 uppercase tracking-wider">How well did you know this?</p>
+      <div class="grid grid-cols-3 gap-3">
+        <button onclick="rateCard('hard')" class="rating-btn flex flex-col items-center gap-2 p-4 bg-red-50 border-2 border-red-200 rounded-2xl">
+          <span class="material-symbols-outlined text-red-500 text-2xl">sentiment_very_dissatisfied</span>
+          <span class="text-red-600 font-bold text-sm">Hard</span>
+          <span class="text-red-400 text-[10px]">Review again soon</span>
+        </button>
+        <button onclick="rateCard('good')" class="rating-btn flex flex-col items-center gap-2 p-4 bg-amber-50 border-2 border-amber-200 rounded-2xl">
+          <span class="material-symbols-outlined text-amber-500 text-2xl">sentiment_neutral</span>
+          <span class="text-amber-600 font-bold text-sm">Good</span>
+          <span class="text-amber-400 text-[10px]">In a few days</span>
+        </button>
+        <button onclick="rateCard('easy')" class="rating-btn flex flex-col items-center gap-2 p-4 bg-emerald-50 border-2 border-emerald-200 rounded-2xl">
+          <span class="material-symbols-outlined text-emerald-500 text-2xl">sentiment_very_satisfied</span>
+          <span class="text-emerald-600 font-bold text-sm">Easy</span>
+          <span class="text-emerald-400 text-[10px]">See you later!</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Tap hint (show before flip) -->
+    <div id="flip-hint" class="flex items-center justify-center gap-2 mt-6 text-slate-400">
+      <span class="material-symbols-outlined text-xl">touch_app</span>
+      <span class="text-sm font-medium">Tap card to flip</span>
+    </div>
+
+    <!-- Report issue -->
+    <div class="mt-6 flex items-center justify-center">
+      <button class="flex items-center gap-1.5 text-slate-400 text-xs font-medium hover:text-red-400 transition-colors">
+        <span class="material-symbols-outlined text-base">flag</span>
+        Report an inaccuracy
+      </button>
+    </div>
+  </div>
+
+  <script>
+    let isFlipped = false;
+    let cardNum = 3;
+    let xp = 15;
+
+    function flipCard() {
+      const card = document.getElementById('flashcard');
+      const ratings = document.getElementById('rating-buttons');
+      const hint = document.getElementById('flip-hint');
+      isFlipped = !isFlipped;
+      card.classList.toggle('flipped', isFlipped);
+      ratings.classList.toggle('hidden', !isFlipped);
+      hint.classList.toggle('hidden', isFlipped);
+    }
+
+    function rateCard(rating) {
+      xp += rating === 'easy' ? 5 : rating === 'good' ? 3 : 1;
+      cardNum++;
+      const progress = Math.min((cardNum / 25) * 100, 100);
+      document.getElementById('current-card').textContent = cardNum;
+      document.getElementById('progress-bar').style.width = progress + '%';
+      document.getElementById('xp-display').textContent = `+${xp} XP earned`;
+
+      // Reset card
+      const card = document.getElementById('flashcard');
+      card.classList.remove('flipped');
+      isFlipped = false;
+      document.getElementById('rating-buttons').classList.add('hidden');
+      document.getElementById('flip-hint').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>

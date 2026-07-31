@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LawFlash AI - Upgrade to Premium</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<script>tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary": "#1a3b70", "accent-gold": "#c5a059" } } } }</script>
+<style>
+body { font-family: 'Inter', sans-serif; background: #0d1117; }
+.gold-gradient { background: linear-gradient(135deg, #c5a059 0%, #f1e0b5 50%, #c5a059 100%); }
+.shimmer { background-size: 200% 100%; animation: shimmer 2s infinite; }
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+</style>
+</head>
+<body class="bg-[#0d1117] min-h-screen">
+<div class="max-w-sm mx-auto flex flex-col min-h-screen">
+
+  <!-- Close -->
+  <div class="flex items-center justify-between px-5 pt-10 pb-4">
+    <a href="dashboard.html" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center">
+      <span class="material-symbols-outlined text-white text-lg">close</span>
+    </a>
+    <span class="text-slate-400 text-xs font-semibold">Limited Time Offer</span>
+    <div class="w-9"></div>
+  </div>
+
+  <!-- Hero -->
+  <div class="px-6 text-center pb-6">
+    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-gold/20 border border-accent-gold/30 mb-5">
+      <span class="w-2 h-2 rounded-full bg-accent-gold animate-pulse"></span>
+      <span class="text-accent-gold text-xs font-bold uppercase tracking-widest">LawFlash Premium</span>
+    </div>
+    <h1 class="text-white text-3xl font-extrabold leading-tight mb-3">
+      Pass Your Bar Finals<br/>
+      <span class="text-transparent bg-clip-text" style="background: linear-gradient(90deg, #c5a059, #f1e0b5, #c5a059)">The Smart Way</span>
+    </h1>
+    <p class="text-slate-400 text-sm leading-relaxed">Unlock unlimited AI flashcards, full MCQ exams, and intelligent spaced repetition to maximize your exam performance.</p>
+  </div>
+
+  <!-- Plan Card -->
+  <div class="px-5 mb-5">
+    <div class="relative border-2 border-accent-gold rounded-2xl p-5 bg-gradient-to-br from-primary/80 to-[#0d2347] overflow-hidden">
+      <div class="absolute top-0 right-0 w-32 h-32 rounded-full bg-accent-gold/10 -translate-y-10 translate-x-10"></div>
+      <div class="relative z-10">
+        <div class="flex items-baseline gap-1 mb-1">
+          <span class="text-slate-300 text-sm font-semibold">₦</span>
+          <span class="text-white font-extrabold text-5xl">5,000</span>
+          <span class="text-slate-400 text-sm">/month</span>
+        </div>
+        <p class="text-slate-400 text-xs mb-4">Cancel anytime. No hidden fees.</p>
+        <div class="border-t border-white/10 pt-4 space-y-3">
+          <div class="flex items-center gap-3">
+            <div class="w-6 h-6 rounded-full gold-gradient flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-white text-sm">check</span>
+            </div>
+            <p class="text-white text-sm font-medium">Unlimited AI Flashcards (all 5 courses)</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-6 h-6 rounded-full gold-gradient flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-white text-sm">check</span>
+            </div>
+            <p class="text-white text-sm font-medium">Unlimited 59-Min MCQ Exam Simulations</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-6 h-6 rounded-full gold-gradient flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-white text-sm">check</span>
+            </div>
+            <p class="text-white text-sm font-medium">Smart Spaced Repetition (SM-2 Algorithm)</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-6 h-6 rounded-full gold-gradient flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-white text-sm">check</span>
+            </div>
+            <p class="text-white text-sm font-medium">Weekly Leaderboard & XP Rankings</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-6 h-6 rounded-full gold-gradient flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-white text-sm">check</span>
+            </div>
+            <p class="text-white text-sm font-medium">Detailed Progress Analytics & Weak Topics</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Free Tier Comparison -->
+  <div class="px-5 mb-5">
+    <div class="bg-white/5 border border-white/10 rounded-2xl p-4">
+      <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-3">Free vs Premium</p>
+      <div class="grid grid-cols-2 gap-2 text-xs">
+        <div class="text-slate-400 font-semibold">Feature</div>
+        <div class="text-center"><span class="text-slate-500 font-semibold">Free</span> → <span class="text-accent-gold font-bold">Premium</span></div>
+        <div class="text-slate-300">Flashcards/day</div>
+        <div class="text-center text-slate-300">5 → <span class="text-accent-gold font-bold">Unlimited</span></div>
+        <div class="text-slate-300">MCQ Exams/month</div>
+        <div class="text-center text-slate-300">3 → <span class="text-accent-gold font-bold">Unlimited</span></div>
+        <div class="text-slate-300">Courses Access</div>
+        <div class="text-center text-slate-300">1 → <span class="text-accent-gold font-bold">All 5</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="px-5 pb-10 mt-auto">
+    <button onclick="initPaystack()" class="w-full text-white font-extrabold py-5 rounded-2xl text-lg shadow-2xl shadow-amber-900/30 flex items-center justify-center gap-3 transition-all hover:opacity-90 active:scale-95" style="background: linear-gradient(135deg, #c5a059, #a07840)">
+      <span class="material-symbols-outlined">lock_open</span>
+      Unlock Premium — ₦5,000/mo
+    </button>
+    <p class="text-center text-slate-500 text-xs mt-3">Secured by <span class="text-accent-gold font-bold">Paystack</span> · 3-day grace period on renewal</p>
+    <a href="dashboard.html" class="block text-center text-slate-500 text-sm mt-4 hover:text-slate-300 transition-colors">Continue with free plan →</a>
+  </div>
+
+</div>
+<script>
+  function initPaystack() {
+    // Paystack integration will be wired to the backend when keys are available
+    alert('Paystack payment integration will be connected to your backend!\n\nFor now this is a UI prototype.');
+  }
+</script>
+</body>
+</html>
